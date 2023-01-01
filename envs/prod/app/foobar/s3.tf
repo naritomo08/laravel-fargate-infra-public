@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "env_file" {
-  bucket = "terraform-state-${local.name_prefix}-${local.service_name}-env-file"
+  bucket = "terraform-state${local.name_prefix}-${local.service_name}-env-file"
   force_destroy = true
 
   server_side_encryption_configuration {
@@ -11,6 +11,6 @@ resource "aws_s3_bucket" "env_file" {
   }
 
   tags = {
-    Name = "terraform-state-${local.name_prefix}-${local.service_name}-env-file"
+    Name = "terraform-state${local.name_prefix}-${local.service_name}-env-file"
   }
 }
