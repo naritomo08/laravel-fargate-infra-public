@@ -68,7 +68,7 @@ Rout53にて外向けドメインを入手し、
 以下のファイル内のドメイン名設定を実施する。
 
 ```bash
-vi envs/prod/network/routing/appfoobar_link/route53.tf
+vi envs/prod/routing/appfoobar_link/route53.tf
 name = "<外向けドメイン名>"を書き換える。
 ```
 
