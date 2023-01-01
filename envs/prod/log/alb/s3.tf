@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-  bucket = "terraform-state-${local.name_prefix}-alb-log"
+  bucket = "terraform-state${local.name_prefix}-alb-log"
   force_destroy = true
 
   server_side_encryption_configuration {
@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "this" {
   }
 
   tags = {
-    Name = "terraform-state-${local.name_prefix}-alb-log"
+    Name = "terraform-state${local.name_prefix}-alb-log"
   }
 
   lifecycle_rule {
