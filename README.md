@@ -395,6 +395,18 @@ terraform state list
 管理コンソール画面から手動で削除すること。
 ```
 
+### 削除しきれていないモジュールの削除
+
+AWS IAM管理画面に入り、以下の設定を削除する。
+
+```bash
+ロール:
+AWSServiceRoleForECS
+AWSServiceRoleForElastiCache
+AWSServiceRoleForElasticLoadBalancing
+AWSServiceRoleForRDS
+```
+
 ### 作業フォルダ削除する。
 
 ```bash
