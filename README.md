@@ -328,6 +328,11 @@ cd ../../network/main
 terraform apply -var='enable_nat_gateway=false'
 ```
 
+### ECSデプロイ用アカウントアクセスキー削除
+
+AWS IAM管理画面から、example-prod-foobar-githubユーザの
+アクセスキーを削除する。
+
 ### その他モジュール削除(Terraform)
 
 以下の順番で削除すること。
@@ -338,8 +343,6 @@ AIMユーザ/ポリシー/ecspresso設定
 cd ../../cicd/app_foobar
 terraform destroy
 terraform state list
-→destroy時にErrorが発生して、”aws_iam_user.github”
- が残るが、気にせず先の作業を実施する。
 
 Laravelロググループ
 cd ../../log/app_foobar
@@ -390,20 +393,6 @@ terraform state list
 結果で残っているモジュールがないか確認できる。
 残っているものがある場合"aws_"で始まるモジュールを削除するか、
 管理コンソール画面から手動で削除すること。
-```
-
-### 削除しきれていないモジュールの削除
-
-AWS IAM管理画面に入り、以下の設定を削除する。
-
-```bash
-ユーザ:
-example-prod-foobar-github
-ロール:
-AWSServiceRoleForECS
-AWSServiceRoleForElastiCache
-AWSServiceRoleForElasticLoadBalancing
-AWSServiceRoleForRDS
 ```
 
 ### 作業フォルダ削除する。
