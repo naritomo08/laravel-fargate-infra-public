@@ -156,7 +156,7 @@ terraform apply -target <モジュール名>
 ### RDSを作成する
 
 ```bash
-cd laravel-fargate-infra/envs/prod/db/foobar
+cd ../../db/foobar
 terraform init
 terraform plan
 terraform apply
@@ -179,7 +179,7 @@ aws ssm put-parameter \
 ### Redisを作成する
 
 ```bash
-cd laravel-fargate-infra/envs/prod/cache/foobar
+cd ../../cache/foobar
 terraform init
 terraform plan
 terraform apply
@@ -188,7 +188,7 @@ terraform apply
 
 ### Redis/RDS CNAMEレコードを作成する
 ```bash
-cd laravel-fargate-infra/envs/prod/routing/foobar_internal
+cd ../../routing/foobar_internal
 terraform init
 terraform plan
 terraform apply
