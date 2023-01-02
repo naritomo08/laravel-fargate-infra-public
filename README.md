@@ -162,7 +162,8 @@ terraform plan
 terraform apply
 ```
 
-ローカルPCで実施(DB/SSMへのRDSパスワード登録)
+### RDS/SystemsManagerへのDBパスワード登録
+
 ```bash
 ＊DB起動時に実施すること。
 aws rds modify-db-instance \
@@ -247,7 +248,8 @@ terraform destroy
 terraform apply
 ```
 
-ローカルPCで実施(DB/SSMへのRDSパスワード登録)
+### RDS/SystemsManagerへのDBパスワード登録
+
 ```bash
 ＊RDS起動時に実施すること。
 aws rds modify-db-instance \
