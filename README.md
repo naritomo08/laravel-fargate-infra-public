@@ -160,6 +160,7 @@ cd ../../db/foobar
 terraform init
 terraform plan
 terraform apply
+*12分近くかかる。
 ```
 
 ### RDS/SystemsManagerへのDBパスワード登録
@@ -246,6 +247,7 @@ terraform apply
 cd laravel-fargate-infra/envs/prod/db/foobar
 terraform destroy
 terraform apply
+*12分近くかかる。
 ```
 
 ### RDS/SystemsManagerへのDBパスワード登録
