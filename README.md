@@ -302,6 +302,7 @@ terraform state list
 ```bash
 cd ../../cache/foobar
 terraform destroy
+→6分かかる
 terraform state list
 ```
 
@@ -310,6 +311,7 @@ terraform state list
 ```bash
 cd ../../db/foobar
 terraform destroy
+→6分かかる
 terraform state list
 ```
 
