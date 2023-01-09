@@ -38,10 +38,9 @@ ALB/SSL
 aws
 
 brew
-*Terraform導入時に必要
+*tfenv導入時に必要
 
 tfenv
-terraform
 ```
 
 ## 利用方法
