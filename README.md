@@ -124,6 +124,7 @@ cd ../../routing/appfoobar_link
 terraform init
 terraform plan
 terraform apply
+*6分かかる
 
 ECR/ECS/.env用S3作成
 cd ../../app/foobar
