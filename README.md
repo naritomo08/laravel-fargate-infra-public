@@ -281,6 +281,18 @@ terraform apply -var='enable_nat_gateway=false'
 terraform apply
 ```
 
+## ECSタスク数変更方法
+
+標準ではタスク数が1つしか立ち上がらないが、
+以下の方法で増やすことができる。
+
+デプロイを実施したら元のタスク数(1)に戻ってしまうため注意。
+
+```bash
+cd /laravel-fargate-infra/envs/prod/app/foobar
+terraform apply -var="desired_count=<タスク数>"
+```
+
 ## 環境の消し方
 
 ### ECSサービスを削除する。
