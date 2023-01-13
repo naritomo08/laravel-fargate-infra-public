@@ -133,7 +133,7 @@ resource "aws_ecs_service" "this" {
     target_group_arn = data.terraform_remote_state.routing_appfoobar_link.outputs.lb_target_group_foobar_arn
   }
 
-  health_check_grace_period_seconds = 60
+  health_check_grace_period_seconds = 3600
 
   network_configuration {
     assign_public_ip = false
