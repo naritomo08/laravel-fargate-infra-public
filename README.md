@@ -71,6 +71,28 @@ vi envs/prod/routing/appfoobar_link/route53.tf
 name = "<外向けドメイン名>"を書き換える。
 ```
 
+#### サブドメインを使用したい場合
+
+xxx.<外向けドメイン名>のように使用したい場合、
+以下の設定を行うこと。
+
+今後の設定では、xxx.<外向けドメイン名>で土間イン名設定を
+実施すること。
+
+```bash
+envs/prod/network/routing/appfoobar_link/route53.tf
+
+以下の部分を"xxx.<ドメイン名>"に変更する。
+
+name    = data.aws_route53_zone.this.name
+
+envs/prod/network/routing/appfoobar_link/acm.tf
+
+以下の部分を"xxx.<ドメイン名>"に変更する。
+
+domain_name = data.aws_route53_zone.this.name
+```
+
 ### s3バケット名、dynamodb名変更
 
 全てのソースから以下の名前になっているS3バケット名/dynamodb名を置換する。
