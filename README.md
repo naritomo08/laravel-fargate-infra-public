@@ -303,6 +303,126 @@ terraform apply -var='enable_nat_gateway=false'
 terraform apply
 ```
 
+## ECSタスクAutoScale設定
+
+タスクのCPU使用率に合わせて立ち上げタスク数を
+変更したい際は以下の設定を実施すること。
+
+事前にアプリソースまでのECS立ち上げを実施して、
+サイト参照できていること。
+
+以下の設定では稼働タスクが最低2/最大4で、
+CPU使用率が75%で増え、25%を切ると減る。
+
+```bash
+cd laravel-fargate-infra/envs/prod/cache/foobar
+vi ecsautoscaling.tf
+
+以下の内容を記載する。
+------------------------------------------
+resource "aws_appautoscaling_target" "ecsfargate" {
+  service_namespace  = "ecs"
+  resource_id        = "service/${aws_ecs_cluster.this.name}/${aws_ecs_service.this.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  min_capacity       = 2
+  max_capacity       = 4
+}
+
+resource "aws_appautoscaling_policy" "ecsfargate_scale_out" {
+  name               = "scale_out"
+  policy_type        = "StepScaling"
+  service_namespace  = aws_appautoscaling_target.ecsfargate.service_namespace
+  resource_id        = aws_appautoscaling_target.ecsfargate.resource_id
+  scalable_dimension = aws_appautoscaling_target.ecsfargate.scalable_dimension
+
+  step_scaling_policy_configuration {
+    adjustment_type         = "ChangeInCapacity"
+    cooldown                = 60
+    metric_aggregation_type = "Average"
+
+    step_adjustment {
+      metric_interval_lower_bound = 0
+      scaling_adjustment          = 1
+    }
+  }
+}
+
+resource "aws_appautoscaling_policy" "ecsfargate_scale_in" {
+  name               = "scale_in"
+  policy_type        = "StepScaling"
+  service_namespace  = aws_appautoscaling_target.ecsfargate.service_namespace
+  resource_id        = aws_appautoscaling_target.ecsfargate.resource_id
+  scalable_dimension = aws_appautoscaling_target.ecsfargate.scalable_dimension
+
+  step_scaling_policy_configuration {
+    adjustment_type         = "ChangeInCapacity"
+    cooldown                = 60
+    metric_aggregation_type = "Average"
+
+    step_adjustment {
+      metric_interval_upper_bound = 0
+      scaling_adjustment          = -1
+    }
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "ecsfargate_cpu_high" {
+  alarm_name          = "cpu_utilization_high"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/ECS"
+  period              = "60"
+  statistic           = "Average"
+  threshold           = "75"
+
+  dimensions = {
+    ClusterName = aws_ecs_cluster.this.name
+    ServiceName = aws_ecs_service.this.name
+  }
+
+  alarm_actions = [
+    aws_appautoscaling_policy.ecsfargate_scale_out.arn
+  ]
+}
+
+resource "aws_cloudwatch_metric_alarm" "ecsfargate_cpu_low" {
+  alarm_name          = "cpu_utilization_low"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/ECS"
+  period              = "60"
+  statistic           = "Average"
+  threshold           = "25"
+
+  dimensions = {
+    ClusterName = aws_ecs_cluster.this.name
+    ServiceName = aws_ecs_service.this.name
+  }
+
+  alarm_actions = [
+    aws_appautoscaling_policy.ecsfargate_scale_in.arn
+  ]
+}
+------------------------------------------
+
+terraform plan
+terraform apply
+```
+
+タスク数が自動的に2つになり、
+負荷に合わせて4つに増えることを確認する。
+
+タスク数を元の固定にする場合、以下の設定を実施すること。
+
+```bash
+cd laravel-fargate-infra/envs/prod/cache/foobar
+mv ecsautoscaling.tf ecsautoscaling.tf.org
+terraform plan
+terraform apply
+```
+
 ## 環境の消し方
 
 ### ECSサービスを削除する。
