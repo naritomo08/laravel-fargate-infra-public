@@ -315,7 +315,7 @@ terraform apply
 CPU使用率が75%で増え、25%を切ると減る。
 
 ```bash
-cd laravel-fargate-infra/envs/prod/cache/foobar
+cd laravel-fargate-infra/envs/prod/app/foobar
 vi ecsautoscaling.tf
 
 以下の内容を記載する。
@@ -417,7 +417,7 @@ terraform apply
 タスク数を元の固定にする場合、以下の設定を実施すること。
 
 ```bash
-cd laravel-fargate-infra/envs/prod/cache/foobar
+cd laravel-fargate-infra/envs/prod/app/foobar
 mv ecsautoscaling.tf ecsautoscaling.tf.org
 terraform plan
 terraform apply
