@@ -3,12 +3,12 @@ resource "aws_elasticache_replication_group" "this" {
 
   // Redis settings
   replication_group_id          = "${local.system_name}-${local.env_name}-${local.service_name}"
-  replication_group_description = "Session storage for Laravel"
+  description                   = "Session storage for Laravel"
   engine_version                = "6.x"
   port                          = 6379
   parameter_group_name          = aws_elasticache_parameter_group.this.name
   node_type                     = "cache.t3.micro"
-  number_cache_clusters         = 2
+  num_cache_clusters            = 2
   multi_az_enabled              = true
 
   // Advanced Redis settings
