@@ -6,6 +6,11 @@ resource "aws_ecs_cluster" "this" {
   }
 }
 
+resource "aws_ecs_cluster_capacity_providers" "cluster1_capacity_providers" {
+  cluster_name       = "${local.name_prefix}-${local.service_name}"
+  capacity_providers = ["FARGATE","FARGATE_SPOT"]
+}
+
 resource "aws_ecs_task_definition" "this" {
   family = "${local.name_prefix}-${local.service_name}"
 
