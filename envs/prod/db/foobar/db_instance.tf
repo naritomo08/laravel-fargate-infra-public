@@ -1,7 +1,7 @@
 resource "aws_db_instance" "this" {
   // Engine options
   engine         = "mysql"
-  engine_version = "8.0.25"
+  engine_version = "8.0.34"
 
   // Settings
   identifier = "${local.system_name}-${local.env_name}-${local.service_name}"
@@ -34,7 +34,7 @@ resource "aws_db_instance" "this" {
   iam_database_authentication_enabled = false
 
   // Database options
-  name                 = local.service_name
+  db_name              = local.service_name
   parameter_group_name = aws_db_parameter_group.this.name
   option_group_name    = aws_db_option_group.this.name
 
