@@ -2,23 +2,28 @@ resource "aws_s3_bucket" "this" {
   bucket = "terraform-state-${local.name_prefix}-alb-log"
   force_destroy = true
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-
   tags = {
     Name = "terraform-state-${local.name_prefix}-alb-log"
   }
+}
 
-  lifecycle_rule {
-    enabled = true
-
+resource "aws_s3_bucket_lifecycle_configuration" "this" {
+  bucket = "terraform-state-${local.name_prefix}-alb-log"
+  rule {
+    status                                 = "Enabled"
+    id                                     = "s3-acl-lifecycle"
     expiration {
-      days = "90"
+      days                         = 30
+    }
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
+  bucket = "terraform-state-${local.name_prefix}-alb-log"
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
     }
   }
 }
