@@ -36,6 +36,10 @@ data "aws_security_group" "db_foobar" {
   name = "${local.name_prefix}-main-db-foobar"
 }
 
+data "aws_security_group" "efs_foobar" {
+  name = "${local.name_prefix}-main-efs-foobar"
+}
+
 data "aws_security_group" "vpc" {
   name = "${local.name_prefix}-main-vpc"
 }

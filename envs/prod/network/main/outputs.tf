@@ -14,6 +14,10 @@ output "security_group_cache_foobar_id" {
   value = aws_security_group.cache_foobar.id
 }
 
+output "security_group_efs_foobar_id" {
+  value = aws_security_group.efs_foobar.id
+}
+
 output "subnet_public" {
   value = aws_subnet.public
 }
@@ -32,4 +36,12 @@ output "db_subnet_group_this_id" {
 
 output "elasticache_subnet_group_this_name" {
   value = aws_elasticache_subnet_group.this.name
+}
+
+output "efs_id" {
+  value = aws_efs_file_system.EFS.id
+}
+
+output "efs_point_id" {
+  value = aws_efs_access_point.EFSpoint.id
 }
