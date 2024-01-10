@@ -13,7 +13,7 @@ resource "aws_efs_file_system" "EFS" {
 
 #マウントターゲットの作成
 resource "aws_efs_mount_target" "EFS-target" {
-  for_each = { for s in aws_subnet.private : s.id => s }
+  for_each = { for s in data.terraform_remote_state.network_main.outputs.subnet_private : s.id => s }
   file_system_id  = aws_efs_file_system.EFS.id
   subnet_id = each.value.id
   security_groups = [aws_security_group.efs_foobar.id]
